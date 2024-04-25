@@ -1,4 +1,4 @@
-NeuroSky Android SDK
+ NeuroSky Android SDK
 ====================
 
 Android SDK for the NeuroSky MindWave Mobile Brainwave Sensing Headset

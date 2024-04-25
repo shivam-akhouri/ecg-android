@@ -55,10 +55,7 @@ allprojects {
     mavenCentral()
     maven {
       url 'https://plugins.gradle.org/m2/'
-    }
+      }
+    maven { url 'https://jitpack.io' }
   }
-}
-
-task clean(type: Delete) {
-  delete rootProject.buildDir
 }

@@ -1,78 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/label"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:orientation="vertical"
-      >
+      android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="@string/waiting_for_state"
-        />
+        android:text="@string/waiting_for_state" />
 
     <TextView
         android:id="@+id/tv_attention"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="@string/waiting_for_attention_signal"
-        />
+        android:text="@string/waiting_for_attention_signal" />
 
     <TextView
         android:id="@+id/tv_meditation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="@string/waiting_for_meditation_signal"
-        />
+        android:text="@string/waiting_for_meditation_signal" />
 
     <TextView
         android:id="@+id/tv_blink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="15dp"
-        android:text="@string/waiting_for_blink_signal"
-        />
+        android:text="@string/waiting_for_blink_signal" />
 
+    <EditText
+        android:id="@+id/thresholdInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text" />
     <Button
         android:id="@+id/btn_connect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/connect"
-        />
+        android:text="@string/connect" />
 
     <Button
         android:id="@+id/btn_start_monitoring"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/start_monitoring"
-        />
+        android:text="@string/start_monitoring" />
 
     <Button
         android:id="@+id/btn_stop_monitoring"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/stop_monitoring"
-        />
+        android:text="@string/stop_monitoring" />
 
     <Button
         android:id="@+id/btn_disconnect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/disconnect"
-        />
+        android:text="@string/disconnect" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/theta_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/delta_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lowalpha_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/highalpha_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lowbeta_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/highbeta_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lowgamma_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/midgamma_chart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" />
 
   </LinearLayout>
+  </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

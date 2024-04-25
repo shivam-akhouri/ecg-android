@@ -1,10 +1,14 @@
 package com.github.pwittchen.neurosky.app.rxjava;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,6 +20,14 @@ import com.github.pwittchen.neurosky.library.message.enums.State;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
 
@@ -25,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
   private RxNeuroSky neuroSky;
   private Disposable disposable;
 
+  ArrayList<String> highbeta, lowgamma, highalpha, lowalpha, theta, lowbeta, midgamma, delta;
+
+  public String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/capturedata";
   @BindView(R.id.tv_state) TextView tvState;
   @BindView(R.id.tv_attention) TextView tvAttention;
   @BindView(R.id.tv_meditation) TextView tvMeditation;
@@ -68,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void handleSignalChange(final Signal signal) {
+    if(highbeta.size() == 10){
+      for(int i = 0; i< highbeta.size(); i++){
+        Log.d("prev high beta values", highbeta.get(i));
+      }
+    }
     switch (signal) {
       case ATTENTION:
         tvAttention.setText(getFormattedMessage("attention: %d", signal));
@@ -78,9 +98,25 @@ public class MainActivity extends AppCompatActivity {
       case BLINK:
         tvBlink.setText(getFormattedMessage("blink: %d", signal));
         break;
-    }
 
-    Log.d(LOG_TAG, String.format("%s: %d", signal.toString(), signal.getValue()));
+    }
+    Log.d(LOG_TAG, String.format("%d", signal.toString(), signal.getValue()));
+  }
+
+  private void saveResult(){ //array list of signals
+//    LocalDateTime now = LocalDateTime.now();
+//    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//    String filename = dtf.format(now).toString();
+//    File file = new File(path+"/"+dtf.format(now).toString());
+//
+//    FileOutputStream fout = null;
+//    try {
+//      fout = new FileOutputStream(file);
+//
+//    } catch (FileNotFoundException e) {
+//      throw new RuntimeException(e);
+//    }
+
   }
 
   private String getFormattedMessage(String messageFormat, Signal signal) {
@@ -96,6 +132,24 @@ public class MainActivity extends AppCompatActivity {
     StringBuilder stringBuilder = new StringBuilder();
 
     for (BrainWave bw : brainWaves) {
+      if(bw.toString().contains("HIGH_BETA") == true && highbeta.size() <= 150){
+        highbeta.add(String.valueOf(bw.getValue()));
+        Log.d(LOG_TAG, "done");
+      }else if(bw.toString().equalsIgnoreCase("LOW_GAMMA") == true && lowgamma.size() <= 150){
+        lowgamma.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("HIGH_ALPHA") == true && highalpha.size() <= 150){
+        highalpha.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("LOW_ALPHA") == true && lowalpha.size() <= 150){
+        lowalpha.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("LOW_BETA") == true && lowbeta.size() <= 150){
+        lowbeta.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("MID_GAMMA") == true && midgamma.size() <= 150){
+        midgamma.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("THETA") == true && theta.size() <= 150){
+        theta.add(String.valueOf(bw.getValue()));
+      }else if(bw.toString().equalsIgnoreCase("DELTA") == true && delta.size() <= 150){
+        delta.add(String.valueOf(bw.getValue()));
+      }
       String message = String.format(Locale.getDefault(), "%s: %d", bw.toString(), bw.getValue());
       stringBuilder.append(message).append(", ");
     }
@@ -128,6 +182,15 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @SuppressLint("CheckResult") @OnClick(R.id.btn_start_monitoring) void startMonitoring() {
+    highalpha = new ArrayList<>();
+    highbeta = new ArrayList<>();
+    lowgamma = new ArrayList<>();
+    lowalpha = new ArrayList<>();
+    lowbeta = new ArrayList<>();
+    theta =  new ArrayList<>();
+    midgamma = new ArrayList<>();
+    delta = new ArrayList<>();
+
     neuroSky
         .start()
         .subscribeOn(Schedulers.io())

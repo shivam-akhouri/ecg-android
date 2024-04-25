@@ -39,6 +39,7 @@ dependencies {
   implementation deps.kotlinstdlib
   implementation deps.appcompat
   implementation deps.constraintlayout
+  implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 buildscript {
